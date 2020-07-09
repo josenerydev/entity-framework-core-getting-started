@@ -10,8 +10,8 @@ using SamuraiApp.Data;
 namespace SamuraiApp.Data.Migrations
 {
     [DbContext(typeof(SamuraiContext))]
-    [Migration("20200709125439_SamuraiBattleStats")]
-    partial class SamuraiBattleStats
+    [Migration("02_newrelationships")]
+    partial class newrelationships
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
