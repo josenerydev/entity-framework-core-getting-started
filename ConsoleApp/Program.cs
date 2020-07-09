@@ -50,7 +50,12 @@ namespace ConsoleApp
             //AddNewHorseToDisconnectedSamuraiObject();
             //ReplaceAHorse();
             //GetSamuraisWithHorse();
-            GetHorseWithSamurai();
+            //GetHorseWithSamurai();
+            //QuerySamuraiBattleStats();
+            //QueryUsingRawSql();
+            //QueryUsingRawSqlWithInterpolation();
+            //QueryUsingFromRawSqlStoredProc();
+            ExecuteSomeRawSql();
             Console.Write("Press any key...");
             Console.ReadKey();
         }
@@ -450,6 +455,47 @@ namespace ConsoleApp
         {
             var clan = _context.Clans.Find(3);
             var samuraisForClan = _context.Samurais.Where(s => s.Clan.Id == 3).ToList();
+        }
+
+        private static void QuerySamuraiBattleStats()
+        {
+            var stats = _context.SamuraiBattleStats.ToList();
+            var firstStat = _context.SamuraiBattleStats.FirstOrDefault();
+            var sampsonStat = _context.SamuraiBattleStats
+                .Where(s => s.Name == "TashaSan").FirstOrDefault();
+        }
+
+        private static void QueryUsingRawSql()
+        {
+            var samurais = _context.Samurais.FromSqlRaw(
+                "SELECT Id, Name, ClanId FROM Samurais").Include(s => s.Quotes).ToList();
+        }
+
+        private static void QueryUsingRawSqlWithInterpolation()
+        {
+            string name = "TashaSan";
+            var samurais = _context.Samurais
+                .FromSqlInterpolated($"SELECT * FROM Samurais WHERE Name = {name}")
+                .ToList();
+        }
+
+        private static void QueryUsingFromRawSqlStoredProc()
+        {
+            var text = "dinner";
+            //var samurais = _context.Samurais.FromSqlRaw(
+            //    "EXEC dbo.SamuraisWhoSaidAWord {0}", text).ToList();
+            var samurais = _context.Samurais.FromSqlInterpolated(
+                $"EXEC dbo.SamuraisWhoSaidAWord {text}").ToList();
+        }
+
+        private static void ExecuteSomeRawSql()
+        {
+            var samuraiId = 6;
+            //var x = _context.Database
+            //        .ExecuteSqlRaw("EXEC DeleteQuotesForSamurai {0}", samuraiId);
+            samuraiId = 1;
+            var x = _context.Database
+                 .ExecuteSqlInterpolated($"EXEC DeleteQuotesForSamurai {samuraiId}");
         }
     }
 }

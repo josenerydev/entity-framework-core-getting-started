@@ -67,3 +67,17 @@ Changing the Child of an Existing Parent
 Is foreign key nullable?
 Is the child object in memory?
 Are the objects being tracked?
+
+_context.ChangeTracke.Entries(),results in QuickWatch to see object are tracked.
+
+DbSet Methods to Run Raw SQL
+Synchonous and asynchronous options
+Special method for interpolated strings
+Use parameters to avoid SQL injection !!
+
+Raw SQL Results Rules (Limitations)
+Must return data for all properties of the entity type
+Column names in results match mapped column names
+Query can't contain related data
+Only query entities and keyless entities known by DbContext
+You can't select navigation properties in SQL
