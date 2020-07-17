@@ -81,3 +81,20 @@ Column names in results match mapped column names
 Query can't contain related data
 Only query entities and keyless entities known by DbContext
 You can't select navigation properties in SQL
+
+Wiring up ASP.NET Core with EF Core
+## Web API Project
+1. Add references to projects with entities and DbContext
+2. Build
+3. Add controller (EF & API actions) (adds ef core & other packages to csproj)
+## Startup
+4. Add services.DbContext with UseSqlServer to startup Configure()
+## appsettings.json
+5. Add connection string config
+6. Add EF Core logging config
+## DbContext
+7. Add Contructor that takes in DbContextOptions
+8. Set ChangeTracker.QueryBehaviorOptions to NoQuery in contructor
+9. Remove optionsBuilder from OnConfiguring
+10. Remove ConsoleLoggerFactory
+11. Clean up using statements
