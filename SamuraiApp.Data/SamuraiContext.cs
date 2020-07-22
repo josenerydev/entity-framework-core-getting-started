@@ -5,10 +5,15 @@ namespace SamuraiApp.Data
 {
     public class SamuraiContext : DbContext
     {
-        public SamuraiContext(DbContextOptions<SamuraiContext> options)
-            :base(options)
+        public SamuraiContext()
         {
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+        }
+
+        public SamuraiContext(DbContextOptions options)
+            : base(options)
+        {
+
         }
 
         public DbSet<Samurai> Samurais { get; set; }
@@ -16,6 +21,15 @@ namespace SamuraiApp.Data
         public DbSet<Clan> Clans { get; set; }
         public DbSet<Battle> Battles { get; set; }
         public DbSet<SamuraiBattleStat> SamuraiBattleStats { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                .UseSqlServer("Data Source = (localdb)\\mssqllocaldb; Initial Catalog = SamuraiTestData");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
